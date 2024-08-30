@@ -1,8 +1,8 @@
-# Скрипт для Разделения Данных из Excel на Части
+# Скрипт для разделения таблицы Excel на части
 
 ## Описание
 
-Этот скрипт предназначен для загрузки данных из Excel-файла и разделения их на несколько частей.
+Очень удобно использовать, если у вас есть, к примеру файл со списком email адресов, который необходимо разбить на несколько
 
 ## Установка
 
@@ -24,41 +24,41 @@ pip install pandas openpyxl
 ### Описание кода
 
 ▎Загрузите данные из Excel
-```
+```python
 file_path = 'path_to_your_file.xlsx'  # Укажите путь к вашему файлу
 sheet_name = 'Sheet1'  # Укажите имя листа, если необходимо
 ```
 
 ▎Чтение данных из Excel
-```
+```python
 df = pd.read_excel(file_path, sheet_name=sheet_name)
 ```
 
 ▎Предположим, что данные находятся в первом столбце (индекс 0)
-```
+```python
 data = df.iloc[:, 0]
 ```
 
 ▎Задайте количество частей
-```
+```python
 num_parts = 4  # Укажите желаемое количество частей
 ```
 
 ▎Разделите данные на указанное количество частей
-```
+```python
 part_size = len(data) // num_parts
 parts = [data[i * part_size:(i + 1) * part_size] for i in range(num_parts)]
 ```
 
 ▎Обработка остатка (если есть)
-```
+```python
 remaining_data = data[num_parts * part_size:]
 if remaining_data.size > 0:
     parts[-1] = pd.concat([parts[-1], remaining_data], ignore_index=True)
 ```
 
 ▎Сохраните каждую часть в отдельный файл
-```
+```python
 for i, part in enumerate(parts, start=1):
     new_file_path = f'output_part_{i}.xlsx'  # Укажите нужный формат и имя файла
     part_df = pd.DataFrame(part).reset_index(drop=True)  # Создание DataFrame для каждой части
@@ -74,5 +74,5 @@ for i, part in enumerate(parts, start=1):
 5. Каждая часть сохраняется в отдельный Excel-файл с именем output_part_X.xlsx, где X — номер части.
 
 ## Заметки:
-- Не забудьте заменить path_to_your_file.xlsx и другие заполнители на актуальную информацию о вашем проекте.
+- Не забудьте заменить path_to_your_file.xlsx и другие переменные на актуальные.
 - Вы можете добавить дополнительные секции по мере необходимости.
